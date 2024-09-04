@@ -16,7 +16,7 @@ vocabulary=9656
 input_length=171
 
 model = Sequential()
-model.add(Embedding(input_dim=vocabulary,output_dim=64,input_length=input_length))
+model.add(Embedding(input_dim=vocabulary,output_dim=64))
 model.add(GRU(16))
 model.add(Dense(2, activation='softmax'))
 model.summary()
@@ -27,7 +27,7 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram
 
 model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['AUC'])
 spam_rnn = model.fit(x_train, y_train, validation_data=(x_val,y_val), batch_size=1, epochs=1,verbose=2,callbacks=[tensorboard_callback])
-model.save('models/model_{0}'.format(tag))
+model.save('models/model_{0}.keras'.format(tag))
 
 yv_pred=model.predict(x_val)
 pd.DataFrame(x_val).to_csv(log_dir+"/xv.csv",index=False,sep=";")
